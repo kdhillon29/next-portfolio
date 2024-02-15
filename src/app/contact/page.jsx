@@ -5,6 +5,7 @@ import emailjs from "@emailjs/browser";
 
 const ContactPage = () => {
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const text = "Say Hello";
 
@@ -14,6 +15,7 @@ const ContactPage = () => {
     e.preventDefault();
     setError(false);
     setSuccess(false);
+    setLoading(true);
 
     emailjs
       .sendForm(
@@ -25,6 +27,7 @@ const ContactPage = () => {
       .then(
         () => {
           setSuccess(true);
+          setLoading(false);
           form.current.reset();
         },
         () => {
@@ -42,7 +45,7 @@ const ContactPage = () => {
     >
       <div className="h-full flex flex-col md:flex-row px-4 sm:px-8 md:px-12 ">
         {/* TEXT CONTAINER */}
-        <div className="h-1/2 lg:h-full lg:w-1/2 flex items-center justify-center text-6xl">
+        <div className="h-1/6 md:h-full md:w-1/2 flex items-center justify-center text-4xl">
           <div>
             {text.split("").map((letter, index) => (
               <motion.span
@@ -87,7 +90,7 @@ const ContactPage = () => {
           />
           <span>Regards</span>
           <button className="bg-purple-200 rounded font-semibold text-gray-600 p-4">
-            Send
+            {!loading ? "Send" : "Sending...."}
           </button>
           {success && (
             <span className="text-green-600 font-semibold">
